@@ -1,6 +1,7 @@
 import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signWithApiKey, ApiKeyStamper } from "@turnkey/api-key-stamper";
 import {
   generateP256KeyPair,
@@ -14,11 +15,17 @@ import {
 } from "@turnkey/encoding";
 import { TurnkeyClient } from "@turnkey/http";
 
+// Storage keys
+const STORAGE_KEYS = {
+  EMBEDDED_KEY: "@turnkey/auth_embedded_key",
+  CREDENTIAL_BUNDLE: "@turnkey/auth_credential_bundle",
+};
+
 const getPublicKeyFromPrivateKeyHex = (privateKey: string): string => {
   return uint8ArrayToHexString(
     getPublicKey(uint8ArrayFromHexString(privateKey), true)
   );
-}
+};
 
 const AuthScreen = () => {
   const [embeddedKey, setEmbeddedKey] = useState<any>(null);
@@ -30,24 +37,62 @@ const AuthScreen = () => {
   const [organizationID, setOrganizationID] = useState("");
   const [userID, setUserID] = useState("");
 
+  // Load stored data on component mount
   useEffect(() => {
-    handleGenerateKey();
+    loadStoredData();
   }, []);
+
+  const loadStoredData = async () => {
+    try {
+      const storedEmbeddedKey = await AsyncStorage.getItem(
+        STORAGE_KEYS.EMBEDDED_KEY
+      );
+      const storedCredentialBundle = await AsyncStorage.getItem(
+        STORAGE_KEYS.CREDENTIAL_BUNDLE
+      );
+
+      if (!storedEmbeddedKey) {
+        // If no embedded key exists, generate a new one
+        handleGenerateKey();
+      } else {
+        setEmbeddedKey(storedEmbeddedKey);
+        const targetPubHex = getPublicKeyFromPrivateKeyHex(storedEmbeddedKey);
+        setPublicKey(targetPubHex);
+      }
+
+      if (storedCredentialBundle) {
+        setCredentialBundle(storedCredentialBundle);
+      }
+    } catch (error) {
+      console.error("Error loading stored data:", error);
+    }
+  };
 
   const handleGenerateKey = async () => {
     try {
       const key = generateP256KeyPair();
-      setEmbeddedKey(key.privateKey);
+      const privateKey = key.privateKey;
       const targetPubHex = key.publicKeyUncompressed;
-      console.log("Target Public key:", targetPubHex); // this is your target public key - use this value in email auth
+
+      // Store and set the embedded key
+      await AsyncStorage.setItem(STORAGE_KEYS.EMBEDDED_KEY, privateKey);
+      setEmbeddedKey(privateKey);
+
+      console.log("Target Public key:", targetPubHex);
       setPublicKey(targetPubHex!);
     } catch (error) {
       console.error("Error generating key:", error);
     }
   };
 
-  const handleInjectBundle = () => {
+  const handleInjectBundle = async () => {
     try {
+      // Store the credential bundle
+      await AsyncStorage.setItem(
+        STORAGE_KEYS.CREDENTIAL_BUNDLE,
+        credentialBundle
+      );
+
       const decryptedData = decryptBundle(
         credentialBundle,
         embeddedKey
@@ -59,6 +104,23 @@ const AuthScreen = () => {
     }
   };
 
+  const handleClearStorage = async () => {
+    try {
+      await AsyncStorage.multiRemove([
+        STORAGE_KEYS.EMBEDDED_KEY,
+        STORAGE_KEYS.CREDENTIAL_BUNDLE,
+      ]);
+      setEmbeddedKey(null);
+      setCredentialBundle("");
+      setPublicKey("");
+      setDecryptedData("");
+      console.log("Storage cleared successfully");
+    } catch (error) {
+      console.error("Error clearing storage:", error);
+    }
+  };
+
+  // Rest of the code remains the same
   const handleWhoami = async () => {
     if (!decryptedData) {
       console.error("unable to get whoami; must have decrypted data");
@@ -78,7 +140,7 @@ const AuthScreen = () => {
 
     const whoamiResponse = await turnkeyClient.getWhoami({
       // This value can be the suborg ID, or its parent org ID (which is sufficient to find out "who you are")
-      organizationId: process.env.EXPO_PUBLIC_TURNKEY_ORGANIZATION_ID!, 
+      organizationId: process.env.EXPO_PUBLIC_TURNKEY_ORGANIZATION_ID!,
     });
 
     setOrganizationID(whoamiResponse.organizationId);
@@ -137,6 +199,10 @@ const AuthScreen = () => {
       <Button
         title="whoami?"
         onPress={handleWhoami}
+      />
+      <Button
+        title="Clear Storage"
+        onPress={handleClearStorage}
       />
       <Text>Organization ID: {organizationID}</Text>
       <Text>User ID: {userID}</Text>

@@ -11,6 +11,7 @@
     "prettier-all:write": "prettier --write \"**/*.{css,html,js,json,md,ts,tsx,yaml,yml}\" --ignore-path ./.prettierignore"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.0.0",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@turnkey/api-key-stamper": "^0.4.0",

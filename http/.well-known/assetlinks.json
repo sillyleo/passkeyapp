@@ -6,7 +6,7 @@
     ],
     "target": {
       "namespace": "android_app",
-      "package_name": "app.expo.nekoriderpass",
+      "package_name": "app.vercel.nekorider",
       "sha256_cert_fingerprints": [
         "5A:C9:A2:D1:52:64:47:8D:23:03:D6:70:67:CE:EF:F4:F6:E5:EB:57:A4:BA:A8:A4:16:E3:06:24:23:67:53:2A"
       ]

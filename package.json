@@ -11,7 +11,7 @@
     "prettier-all:write": "prettier --write \"**/*.{css,html,js,json,md,ts,tsx,yaml,yml}\" --ignore-path ./.prettierignore"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.0.0",
+    "@react-native-async-storage/async-storage": "1.21.0",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@turnkey/api-key-stamper": "^0.4.0",
@@ -19,27 +19,29 @@
     "@turnkey/encoding": "^0.2.0",
     "@turnkey/http": "^2.7.0",
     "@turnkey/react-native-passkey-stamper": "^0.1.0",
-    "expo": "^50.0.17",
+    "expo": "~50.0.20",
     "expo-status-bar": "~1.11.1",
     "prettier": "^3.2.5",
     "react": "18.2.0",
     "react-native": "0.73.6",
-    "react-native-get-random-values": "^1.11.0",
+    "react-native-get-random-values": "~1.8.0",
     "react-native-passkey": "^2.1.1",
     "react-native-safe-area-context": "4.8.2",
-    "react-native-screens": "~3.29.0"
+    "react-native-screens": "~3.29.0",
+    "expo-dev-client": "~3.3.12"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@tsconfig/react-native": "^3.0.3",
     "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.12",
-    "@types/react": "^18.2.54",
+    "@types/react": "~18.2.45",
     "@types/react-test-renderer": "^18.0.7",
     "metro-react-native-babel-preset": "^0.77.0",
     "react-native-dotenv": "^3.4.9",
     "typescript": "^5.3.3",
     "wrangler": "^3.26.0"
   },
-  "private": true
+  "private": true,
+  "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b"
 }

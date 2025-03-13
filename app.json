@@ -14,18 +14,18 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.expo.nekoriderpass",
+      "bundleIdentifier": "app.vercel.nekorider",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
-      "associatedDomains": ["webcredentials:http-rust.vercel.app"]
+      "associatedDomains": ["webcredentials:nekorider.vercel.app"]
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.expo.nekoriderpass"
+      "package": "app.vercel.nekorider"
     },
     "web": {
       "favicon": "./assets/favicon.png"

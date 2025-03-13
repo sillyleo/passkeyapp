@@ -1,26 +1,31 @@
 {
   "cli": {
-    "version": ">= 7.1.2",
-    "promptToConfigurePushNotifications": false
+    "version": ">= 15.0.15",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
       "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_TURNKEY_ORGANIZATION_ID": "<your turnkey organization ID>",
-        "EXPO_PUBLIC_TURNKEY_API_PUBLIC_KEY": "<your turnkey API public key>",
-        "EXPO_PUBLIC_TURNKEY_API_PRIVATE_KEY": "<your turnkey API private key>"
-      },
       "android": {
         "buildType": "apk",
         "credentialsSource": "local"
       }
     },
-    "production": {}
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "credentialsSource": "local"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle",
+        "credentialsSource": "local"
+      }
+    }
   },
   "submit": {
     "production": {}

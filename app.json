@@ -14,24 +14,27 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "associatedDomains": ["webcredentials:passkeyapp.tkhqlabs.xyz"],
-      "bundleIdentifier": "xyz.tkhqlabs.passkeyapp"
+      "bundleIdentifier": "app.expo.nekoriderpass",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "associatedDomains": ["webcredentials:http-rust.vercel.app"]
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "xyz.tkhqlabs.passkeyapp"
+      "package": "app.expo.nekoriderpass"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "owner": "leolinperp",
     "extra": {
       "eas": {
-        "projectId": "64f5f2df-f517-426c-80df-33e0619e3cbd"
+        "projectId": "455bb70e-84fb-4b9b-b011-c7862153d9ad"
       }
-    },
-    "owner": "moe-dev"
+    }
   }
 }

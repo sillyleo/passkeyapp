@@ -9,6 +9,7 @@ import { ApiKeyStamper } from "@turnkey/api-key-stamper";
 import { TurnkeyClient } from "@turnkey/http";
 import { Buffer } from "buffer";
 import { useNavigation } from "@react-navigation/native";
+import { Passkey } from "react-native-passkey";
 
 const RPID = process.env.EXPO_PUBLIC_RPID;
 
@@ -18,9 +19,11 @@ export default function Home() {
     //@ts-ignore
     navigation.navigate("AuthScreen"); // Use the navigate function with the screen name
   };
+  const isSupported: boolean = Passkey.isSupported();
 
   return (
     <View style={styles.container}>
+      <Text>Passkeys supported: {isSupported ? "Yes" : "No"}</Text>
       <Text style={styles.title}>Native Passkeys + Turnkey</Text>
       <Button title="Sign Up" onPress={onPasskeyCreate}></Button>
       <Button
